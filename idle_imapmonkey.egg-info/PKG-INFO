@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: idle-imapmonkey
+Version: 0.1dev
+Summary: Monkey patches IDLE functionality into Python's imaplib
+Home-page: n/a
+Author: Dominic LoBue
+Author-email: dominic.lobue@gmail.com
+License: GPLv3
+Description: This module adds IDLE functionality into the standard Python library imaplib. The aim of this is to add a much sought-after feature while changing as little of the existing imaplib library as possible. The fact of the matter is that there are only two Python IMAP libraries that provide IDLE; one is not free nor open-source, and the other is riddled with bugs. The goal being to retain imaplib's battle-tested code base and be interchangable with imaplib.
+Keywords: imap network mail
+Platform: UNKNOWN
