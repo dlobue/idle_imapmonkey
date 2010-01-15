@@ -102,20 +102,20 @@ class idle_mixin(object):
             resp_buffer.append(resp)
 
             if self.state == 'IDLE':
-                data_release = Timer(TIMER_DELAY, self._idle_dispatch, (resp,))
+                data_release = Timer(TIMER_DELAY, self._idle_dispatch, (resp_buffer,))
                 data_release.start()
 
-    def _idle_dispatch(self, update):
+    def _idle_dispatch(self, resp_buffer):
         '''
         This is required to clean out the response buffer so we don't process
         any messages more than once.
         '''
         try:
-            return self.idle_dispatch(update)
+            return self.idle_dispatch(resp_buffer)
         finally:
-            del update[:]
+            del resp_buffer[:]
 
-    def idle_dispatch(self, update):
+    def idle_dispatch(self, resp_buffer):
         '''
         Reimplement this method in order to use the updates received from the IMAP server.
         
