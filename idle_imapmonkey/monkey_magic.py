@@ -1,5 +1,5 @@
 import imaplib
-from threading import Thread, Timer
+from threading import Timer
 
 
 #Exchange server I do testing on gives 5 IDLE updates for every event
@@ -102,7 +102,7 @@ class idle_mixin(object):
             resp_buffer.append(resp)
 
             if self.state == 'IDLE':
-                data_release = Timer(TIMER_DELAY, self._idle_dispatch, resp)
+                data_release = Timer(TIMER_DELAY, self._idle_dispatch, (resp,))
                 data_release.start()
 
     def _idle_dispatch(self, update):
@@ -128,6 +128,11 @@ class idle_mixin(object):
         raise NotImplemented
 
 
-class IMAP4(imaplib.IMAP4, idle_mixin): pass
-class IMAP4_SSL(imaplib.IMAP4_SSL, idle_mixin): pass
-class IMAP4_stream(imaplib.IMAP4_stream, idle_mixin): pass
+class IMAP4(imaplib.IMAP4, idle_mixin):
+    __doc__ = imaplib.IMAP4.__doc__
+
+class IMAP4_SSL(imaplib.IMAP4_SSL, idle_mixin):
+    __doc__ = imaplib.IMAP4_SSL.__doc__
+
+class IMAP4_stream(imaplib.IMAP4_stream, idle_mixin):
+    __doc__ = imaplib.IMAP4_stream.__doc__
