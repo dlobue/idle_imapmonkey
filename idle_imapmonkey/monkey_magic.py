@@ -1,4 +1,5 @@
-import imaplib from threading import Thread, Timer
+import imaplib
+from threading import Thread, Timer
 
 
 #Exchange server I do testing on gives 5 IDLE updates for every event
@@ -12,6 +13,7 @@ __all__ = ["IMAP4", "IMAP4_stream", "Internaldate2tuple",
            "Int2AP", "ParseFlags", "Time2Internaldate"]
 
 Internaldate2tuple = imaplib.Internaldate2tuple
+Time2Internaldate = imaplib.Time2Internaldate
 Int2AP = imaplib.Int2AP
 ParseFlags = imaplib.ParseFlags
 IMAP4_PORT = imaplib.IMAP4_PORT

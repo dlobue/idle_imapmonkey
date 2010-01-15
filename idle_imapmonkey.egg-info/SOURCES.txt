@@ -1,6 +1,8 @@
+README
 setup.cfg
 setup.py
 idle_imapmonkey/__init__.py
+idle_imapmonkey/monkey_magic.py
 idle_imapmonkey.egg-info/PKG-INFO
 idle_imapmonkey.egg-info/SOURCES.txt
 idle_imapmonkey.egg-info/dependency_links.txt
