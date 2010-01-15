@@ -36,15 +36,25 @@ class idle_mixin(object):
         self.send('%s%s' % (name, CRLF))
         return
 
-    def idle(self):
+    def _bounce_idle(self):
+        if self.state != 'IDLE':
+            return
+        self.done()
+        self.idle()
+
+    def idle(self, bounce_timer = (29 * 60) ):
         '''
         Use this method to initiate IDLE mode.
+
+        bounce_timer: The IDLE spec suggests stopping and restarting IDLE
+            every 29 minutes in order to avoid timing out. This is the default,
+            and there should be no need to change it. If you find that your 
+            connection is timing out anyway however change this value to something
+            lower.
 
         Note that this method is blocking and should be run in a thread.
         '''
         name = 'IDLE'
-
-        #TODO: Optional KeepAlives and IDLE restarts every 29 minutes
 
         if name not in self.capabilities:
             raise self.Abort('Server does not support IDLE')
@@ -55,7 +65,11 @@ class idle_mixin(object):
         response = self._get_line()
         if 'accepted, awaiting DONE command' in response or 'idling' in response:
             self.state = name
+            tmr = Timer(bounce_timer, self._bounce_idle)
+            tmr.daemon = True
+            tmr.start()
             final_response = self._coreader(tag)
+            tmr.cancel()
             return final_response
         else:
             self.Abort('Failed to initiate IDLE! Got error %s' % response)
